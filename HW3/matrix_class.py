@@ -32,8 +32,8 @@ class CustomMatrix():
     def _shape_check(transposed=False): 
         def _shape_check_inner(method):
             def shape_checked(self, other):
-                shape_other = other.shape[::-1] if transposed else other.shape
-                if self.shape != shape_other:
+                shape_other = other._shape[::-1] if transposed else other.shape
+                if self._shape != shape_other:
                     raise ValueError(f'Matrix shape {self.shape} mismatch shape {other.shape} for this operation')
                 else:
                     return method(self, other)
