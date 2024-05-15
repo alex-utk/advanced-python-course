@@ -30,7 +30,7 @@ def inner_func(f, x, step, logg):
 
 def integrate(f, a, b, *, log, n_jobs=1,
               job_type: Literal['thread', 'process']='process',
-              n_iter=5000000):
+              n_iter=10000):
     step_size = (b - a) / n_iter
     steps = [a + i * step_size for i in range(n_iter)]
     
@@ -48,22 +48,22 @@ def integrate(f, a, b, *, log, n_jobs=1,
 
 
 if __name__ == '__main__':      
-    tr_logger = setup_logger('tr_logger', 'tr_logger.log')
-    pr_logger = setup_logger('pr_logger', 'pr_logger.log')
+    tr_logger = setup_logger('tr_logger', '/usr/src/app/HW4/artefacts/tr_logger.log')
+    pr_logger = setup_logger('pr_logger', '/usr/src/app/HW4/artefacts/pr_logger.log')
     
     multiprocessing_logging.install_mp_handler(pr_logger) # мультипроцессорный логгер
     
     thread_results = []
     process_results = []
     print('Processes')
-    for jobs in range(1, 2*multiprocessing.cpu_count()):
+    for jobs in range(1, 2 * multiprocessing.cpu_count()):
         pr_logger.info(f'!!!!{jobs} PROCESSES!!!!')
         start = time.time()
         integrate(math.cos, 0, math.pi / 2, log=pr_logger, n_jobs=jobs, job_type='process')
         end = time.time()
         process_results.append(end-start)
     print('Threads')
-    for jobs in range(1, 2*multiprocessing.cpu_count()):
+    for jobs in range(1, 2 * multiprocessing.cpu_count()):
         pr_logger.info(f'!!!!{jobs} THREADS!!!!')
         start = time.time()
         integrate(math.cos, 0, math.pi / 2, log=tr_logger, n_jobs=jobs, job_type='thread')
