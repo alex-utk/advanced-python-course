@@ -16,5 +16,5 @@ RUN apt-get update \
     && python3 -m pip install pipx
 RUN pipx install poetry && pipx ensurepath
 ENV PATH="${PATH}:/root/.local/bin"
-RUN poetry init && poetry add $(cat requirements.txt) 
+RUN poetry install
 CMD ["/bin/sh", "-c", "bash"]
